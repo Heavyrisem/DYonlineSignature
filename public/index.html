@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>온라인 전자 서명</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <script src="./js/index.js"></script>
+    <script type="text/javascript">
+        window.onload = () => {
+            let today = new Date();
+            document.getElementById("AccDay").value = `${today.getFullYear()}/${today.getMonth()+1}/${today.getDate()}`;
+        }
+    </script>
+</head>
+
+
+<body>
+    <div class="banner">
+        <img class="bannerImg" src="image/topLogo.gif">
+        <h1 class="bannerText">온라인 전자 서명</h1>
+    </div>
+
+    <div class="main">
+        <h2 class="title">스쿨뱅킹 자동납부 신청서</h2>
+        <hr class="line">
+        <a class="content">본인은(스쿨뱅킹) 서비스의 납부자로서 아래 정보의 계좌에서 동 서비스와 관련한 자동이체 출금을 (신청)합니다.</a>
+
+        <!-- 정보 입력 -->
+        <table class="inputTable">
+            <tr>
+                <th>합격 과 :&nbsp</th>
+                <!--<td><input type="text" class="class_input" id="sub" placeholder = "" required minlength="1" maxlength="10"></td>-->
+                <td>
+                    <select name="class_name" class="class_select" id="sub">
+                        <option value="soft" id="_soft">소프트웨어</option>
+                        <option vlaue="big" id="_big">빅데이터</option>
+                        <option value="Health" id="_Health">보건간호</option>
+                        <option vlaue="Accounting" id="_Accounting">경영회계</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>수험번호 :&nbsp</th>
+                <td><input type="number" class="number_input" id="testNo" pattern="[0-9]+" required minlength="1" maxlength="30"></td>
+            </tr>
+            <tr>
+                <th>이름 :&nbsp</th>
+                <td><input type="text" class="name_input" id="name" required minlengh="1" maxlength="10"></td>
+            </tr>
+        </table>
+        <!-- 세부 정보 -->
+        <div class="bottomTable">
+            <table class="applicationTable" border="1" cellpadding="0" cellspacing="0">
+                <tr>
+                    <th>구분</th>
+                    <td>스쿨뱅킹 신청</td>
+                    <th>출금동의일자</th>
+                    <td><input type="text" id="AccDay" readonly/></td>
+                </tr>
+                <tr>
+                    <th>예금주 성명</th>
+                    <td><input type="text" style="ime-mode:active" id="AccHolderName" placeholder = ""></td>
+                    <th>학부모님 핸드폰번호</th>
+                    <td><input type="tel" id="ParentPhone" placeholder = "-를 뺀 번호를 입력해주세요" required minlength="9" maxlength="11"></td>
+                </tr>
+                <tr>
+                    <th>계좌번호(농협)</th>
+                    <td colspan="3"><input type="number" id="AccNo"></td>
+                </tr>
+                <tr>
+                    <th>신청인</th>
+                    <td><input type="text" id="WhoAreYou"></td>
+                    <th>예금주와 관계</th>
+                    <td>
+                        <select name="depositor" class="Relationship" id="Relation">
+                            <option value="man" id="_man">부</option>
+                            <option vlaue="girl" id="_girl">모</option>
+                            <option vlaue="oldman" id="_oldman">조부</option>
+                            <option vlaue="gita" id="_gita">기타</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>납부자 번호</th>
+                    <td colspan="3"><input type="text" id="PayerNo"></td>
+                </tr>
+            </table>
+            <h4>* 납부자 번호 란은 학생주민번호 13자리 작성</h4>
+        </div>
+        <br>
+
+        <button class="captureWindow" onclick="sendData(this)">제출하기</button>
+    </div>
+</body>
