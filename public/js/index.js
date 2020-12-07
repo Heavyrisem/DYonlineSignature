@@ -75,8 +75,8 @@ function sendData() {
     // ===============================
 
     if (!problem) {
-        console.log("POST DATA", userinput)
-        // ajaxSend(userinput)
+        // console.log("POST DATA", userinput)
+        ajaxSend(userinput)
     }
 }
 
