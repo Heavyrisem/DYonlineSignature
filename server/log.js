@@ -1,5 +1,5 @@
 const fs = require("fs");
-const logpath = `./logs/${LogFileName()}.txt`;
+const logpath = `../logs/${LogFileName()}.txt`;
 fs.writeFileSync(logpath, "Log Started\n");
 
 function LogFileName() {
