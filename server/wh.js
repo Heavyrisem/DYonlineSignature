@@ -100,7 +100,7 @@ async function Prepare(req, res) {
 app.post("/wh", async (req, res) => {
     Prepare(req, res);
 });
-// test
+
 app.listen(9800, async () => {
     await stopServer();
     startServer(process.platform);
