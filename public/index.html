@@ -9,7 +9,7 @@
     <script type="text/javascript">
         window.onload = () => {
             let today = new Date();
-            document.getElementById("AccDay").value = `${today.getFullYear()}/${today.getMonth()+1}/${today.getDate()}`;
+            document.getElementById("AccDay").value = `${today.getFullYear()}/${today.getMonth() + 1}/${today.getDate()}`;
         }
     </script>
 </head>
@@ -56,13 +56,13 @@
                     <th>구분</th>
                     <td>스쿨뱅킹 신청</td>
                     <th>출금동의일자</th>
-                    <td><input type="text" id="AccDay" readonly/></td>
+                    <td><input type="text" id="AccDay" readonly /></td>
                 </tr>
                 <tr>
                     <th>예금주 성명</th>
-                    <td><input type="text" style="ime-mode:active" id="AccHolderName" placeholder = ""></td>
+                    <td><input type="text" style="ime-mode:active" id="AccHolderName" placeholder=""></td>
                     <th>학부모님 핸드폰번호</th>
-                    <td><input type="tel" id="ParentPhone" placeholder = "-를 뺀 번호를 입력해주세요" required minlength="9" maxlength="11"></td>
+                    <td><input type="tel" id="ParentPhone" placeholder="-를 뺀 번호를 입력해주세요" required minlength="9" maxlength="11"></td>
                 </tr>
                 <tr>
                     <th>계좌번호(농협)</th>
@@ -86,7 +86,9 @@
                     <td colspan="3"><input type="text" id="PayerNo"></td>
                 </tr>
             </table>
-            <h4>* 납부자 번호 란은 학생주민번호 13자리 작성</h4>
+            <h4 class="lastText">* 납부자 번호 란은 학생주민번호 13자리 작성</h4>
+
+            <input type="checkbox" id="agreeCheckBox"> 개인정보 이용에 동의합니다.
         </div>
         <br>
 

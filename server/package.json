@@ -14,6 +14,7 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "greenlock-express": "^4.0.3",
-    "nodemailer": "^6.4.16"
+    "nodemailer": "^6.4.16",
+    "util": "^0.12.3"
   }
 }

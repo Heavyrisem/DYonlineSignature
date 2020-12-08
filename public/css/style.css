@@ -100,3 +100,7 @@
 select {
     width: 100%; 
 }
+
+.lastText {
+    margin-bottom: 20px;
+}

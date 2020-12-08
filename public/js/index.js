@@ -10,7 +10,11 @@ function sendData() {
         AccNo:(document.getElementById("AccNo").value),
         WhoAreYou:(document.getElementById("WhoAreYou").value),
         Relation:(document.getElementById("Relation").options[document.getElementById("Relation").selectedIndex].value),
-        PayerNo:(document.getElementById("PayerNo").value)
+        PayerNo: (document.getElementById("PayerNo").value),
+    }
+    if (document.getElementById("agreeCheckBox").checked == false) {
+        alert('개인정보 이용 동의에 체크해주세요.');
+        return true;
     }
     // 데이터 유효성 검증 ===============
     let key = Object.keys(userinput);
@@ -81,6 +85,7 @@ function sendData() {
 }
 
 function ajaxSend(data) {
+    data.token = "Ie9mkp6Ty3uqHnd9cY6M7c7qwEA91r";
     let httpRequset;
     httpRequset = new XMLHttpRequest();
     
@@ -99,7 +104,7 @@ function ajaxSend(data) {
             }
         }
     }
-    httpRequset.open("POST", "https://dyonlinesignature.kro.kr/upload");
+    httpRequset.open("POST", "https://heavyrisem.kro.kr/upload");
     httpRequset.setRequestHeader("Content-Type", "application/json");
     httpRequset.send(JSON.stringify(data));
 }

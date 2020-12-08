@@ -1,4 +1,5 @@
 /server/config.json
-/server/greenlock.d
+/server/greenlock.d/*
 /server/.greenlockrc
 /server/node_modules
+/server/logs/*
