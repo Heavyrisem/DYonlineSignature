@@ -1,6 +1,5 @@
 const fs = require("fs");
-const logpath = `../logs/${LogFileName()}.txt`;
-fs.writeFileSync(logpath, "Log Started\n");
+let logpath;
 
 function LogFileName() {
     let now = new Date();
@@ -24,8 +23,26 @@ function replaceAll(originstr, findstr, replacestr) {
     return originstr.split(findstr).join(replacestr);
 }
 
-function init() {
-    process.stdout.write = (writeLog)(process.stdout.write);
+function init(root) {
+    fs.readdir(`./logs/${root}`, (err, files) => {
+        if (err) {
+            fs.mkdir(`./logs/${root}`, {recursive: true}, () => {
+                logpath = `./logs/${root}/${LogFileName()}.txt`;
+                fs.writeFileSync(logpath, "Log Started\n");
+                process.stdout.write = (writeLog)(process.stdout.write);
+            });
+            return;
+        }
+        files.some(name => {
+            if (name == root) return true;
+            else return false;
+        });
+        fs.mkdir(`./logs/${root}`, {recursive: true}, () => {
+            logpath = `./logs/${root}/${LogFileName()}.txt`;
+            fs.writeFileSync(logpath, "Log Started\n");
+            process.stdout.write = (writeLog)(process.stdout.write);
+        });
+    });
 }
 
 exports.init = init;
