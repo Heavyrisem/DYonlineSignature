@@ -101,7 +101,8 @@ app.get("/wh", async (req, res) => {
     Prepare(req, res);
 });
 
-app.listen(9800, () => {
+app.listen(9800, async () => {
+    await stopServer();
     startServer(process.platform);
     console.log("webhook server is open 9800");
 })
