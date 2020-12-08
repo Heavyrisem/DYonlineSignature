@@ -104,7 +104,7 @@ function ajaxSend(data) {
             }
         }
     }
-    httpRequset.open("POST", "https://heavyrisem.kro.kr/upload");
+    httpRequset.open("POST", "https://dyonlinesignature.kro.kr/upload");
     httpRequset.setRequestHeader("Content-Type", "application/json");
     httpRequset.send(JSON.stringify(data));
 }
