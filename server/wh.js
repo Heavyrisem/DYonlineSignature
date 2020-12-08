@@ -89,7 +89,7 @@ async function Prepare(req, res) {
     
                 console.log("-------------- Server Restart --------------");
                 await stopServer();
-                startServer();
+                startServer(process.platform);
                 console.log("-------------- Server Restart Finish --------------");
             }
         });
