@@ -2,4 +2,4 @@
 /server/greenlock.d/*
 /server/.greenlockrc
 /server/node_modules
-/logs/*
+/server/logs/*
