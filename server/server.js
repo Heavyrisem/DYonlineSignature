@@ -1,5 +1,5 @@
 const config = require("./config.json");
-// require('./log').init('server');
+require('./log').init('server');
 const nodemailer = require("nodemailer");
 const transporter = nodemailer.createTransport({
     // host: "smtp.gmail.com",
@@ -15,13 +15,16 @@ const express = require("express");
 const bodyParser = require('body-parser');
 const app = express();
 const fs = require("fs");
-const crypto = require("crypto");
 
-// require('greenlock-express').init({
-//     packageRoot: __dirname,
-//     configDir: './greenlock.d',
-//     maintainerEmail: 'pyo1748@gmail.com',
-//   }).serve(app);
+const crypto = require("crypto");
+const key = crypto.scryptSync(config.crpytoKEY, 'salt', 24);
+const iv = Buffer.alloc(16, 0);
+
+require('greenlock-express').init({
+    packageRoot: __dirname,
+    configDir: './greenlock.d',
+    maintainerEmail: 'pyo1748@gmail.com',
+  }).serve(app);
 app.use(cors());
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
@@ -47,25 +50,59 @@ app.get("/", (req, res) => {
     })
 });
 
-app.get("/decrypt", (req, res) => {
-    let key = crypto.scrypt(config.crpytoKEY, 'salt', config.crpytoKEY.length);
-    let iv = crypto.randomBytes(16);
-    let cipher = crypto.createCipheriv('aes-256-gcm', config.crpytoKEY, key);
-    let result = cipher.update(req.body.test, 'utf8', 'base64');
-    console.log("Crypted: ", result);
-    
-    let decipher = crypto.createDecipheriv('aes-256-gcm', config.crpytoKEY);
-    console.log("Decrypted: ", decipher.update(result, 'base64', 'utf8'));
-    res.send("OK");
+app.get("/decrypt", async (req, res) => {
+    console.log(currentTime(), "데이터 복호화 요청", req.headers['x-forwarded-for'] || req.connection.remoteAddress);
+    fs.readFile(`../public/decrypt.html`, async (err, data) => {
+        if (err) {
+            console.log(currentTime(), "decrypt.html", err);
+            return res.send("페이지 로드 중 오류가 발생했습니다.");
+        } else {
+            if (req.query.field) {
+
+                let html = data.toString();
+                let decrypted = await decrypt(req.query.field);
+                if (decrypted == "PARSE_ERR") return res.send("데이터 복호화 중 오류 발생");
+                let keys = Object.keys(decrypted);
+                
+
+                keys.forEach(name => {
+                    html = html.replace(name.toUpperCase(), decrypted[name]);
+                });
+                
+                res.writeHead(200, {'Content-Type': 'text/html'});
+                res.end(html);
+
+            } else {
+                res.send("입력된 데이터가 없습니다.");
+            }
+        }
+    })
 })
+
+async function decrypt(field) {
+    return new Promise((resolve, reject) => {
+
+        try {
+            let decipher = crypto.createDecipheriv('aes-192-cbc', key, iv);
+            let decrypted = decipher.update(field, 'hex', 'utf8');
+            decrypted += decipher.final('utf8');
+            decrypted = JSON.parse(decrypted);
+            resolve(decrypted);
+        } catch (err) {
+            console.log("PARSEERR", err);
+            resolve("PARSE_ERR");
+        }
+
+    })
+}
 
 app.post("/upload", (req, res) => {
     if (req.body.token != config.certficationToken) return res.send("보안 코드가 일치하지 않습니다.");
     const userinput = req.body;
-    let key = Object.keys(userinput);
+    let names = Object.keys(userinput);
     let problem = false;
-    if (key.length != 12) return res.send("입력된 데이터의 갯수가 정확하지 않습니다.");
-    key.some(name => {
+    if (names.length != 12) return res.send("입력된 데이터의 갯수가 정확하지 않습니다.");
+    names.some(name => {
         if (userinput[name] == undefined || userinput[name] == "") {
             req.send(`${name} 은 공백일수 없습니다. \n다시 입력해 주세요`);
             problem = true;
@@ -82,8 +119,16 @@ app.post("/upload", (req, res) => {
         return res.send("이미 처리된 수험번호 입니다.");
     }
 
-    const mailText = `합격 과: ${userinput.sub}\n수험번호: ${userinput.testNo}\n이름: ${userinput.name}\n구분: ${userinput.type}\n출금동의일자: ${userinput.AccDay}\n예금주 성명: ${userinput.AccHolderName}\n학부모님 핸드폰번호: ${userinput.ParentPhone}\n계좌번호(농협): ${userinput.AccNo}\n신청인: ${userinput.WhoAreYou}\n예금주와 관계: ${userinput.Relation}\n납부자 번호: ${userinput.PayerNo}`;
+
+
+
+    // const mailText = `합격 과: ${userinput.sub}\n수험번호: ${userinput.testNo}\n이름: ${userinput.name}\n구분: ${userinput.type}\n출금동의일자: ${userinput.AccDay}\n예금주 성명: ${userinput.AccHolderName}\n학부모님 핸드폰번호: ${userinput.ParentPhone}\n계좌번호(농협): ${userinput.AccNo}\n신청인: ${userinput.WhoAreYou}\n예금주와 관계: ${userinput.Relation}\n납부자 번호: ${userinput.PayerNo}`;
+    const mailText = JSON.stringify(userinput);
     if (mailText.indexOf("undefined") != -1) return res.send("누락된 정보가 있습니다.");
+
+    let cipher = crypto.createCipheriv('aes-192-cbc', key, iv);
+    let crypted = cipher.update(mailText, 'utf8', 'hex');
+    crypted += cipher.final('hex');
 
     let timer = Date.now();
     
@@ -92,7 +137,7 @@ app.post("/upload", (req, res) => {
         from: `${config.mailID}@gmail.com`,
         to: config.targetEmail,
         subject: `[${userinput.type}] ${userinput.name}`,
-        text: mailText
+        text: `암호화된 데이터 입니다. 링크를 클릭하여 복호화된 정보를 확인하세요 \nhttps://dyonlinesignature.kro.kr/decrypt?field=${crypted}`
     }
     transporter.sendMail(mailoption, (err, info) => {
         if (err) console.log(currentTime(), "메일 발송 오류", err);

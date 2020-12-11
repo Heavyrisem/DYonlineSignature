@@ -1,0 +1,78 @@
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>온라인 전자 서명</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <script src="./js/index.js"></script>
+</head>
+
+
+<body>
+    <div class="banner">
+        <img class="bannerImg" src="image/topLogo.gif">
+        <h1 class="bannerText">온라인 전자 서명</h1>
+    </div>
+
+    <div class="main">
+        <h2 class="title">스쿨뱅킹 자동납부 신청서</h2>
+        <hr class="line">
+        <a class="content">본인은(스쿨뱅킹) 서비스의 납부자로서 아래 정보의 계좌에서 동 서비스와 관련한 자동이체 출금을 (신청)합니다.</a>
+
+        <!-- 정보 입력 -->
+        <table class="inputTable">
+            <tr>
+                <th>합격 과 :&nbsp</th>
+                <td>
+                    <select name="class_name" class="class_select">
+                        <option id="_soft">SUB</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>수험번호 :&nbsp</th>
+                <td><input type="number" class="number_input" pattern="[0-9]+" required minlength="1" maxlength="30" value="TESTNO" readonly></td>
+            </tr>
+            <tr>
+                <th>이름 :&nbsp</th>
+                <td><input type="text" class="name_input" id="name" required minlengh="1" maxlength="10" value="NAME" readonly></td>
+            </tr>
+        </table>
+        <!-- 세부 정보 -->
+        <div class="bottomTable">
+            <table class="applicationTable" border="1" cellpadding="0" cellspacing="0">
+                <tr>
+                    <th>구분</th>
+                    <td>TYPE</td>
+                    <th>출금동의일자</th>
+                    <td><input type="text" id="AccDay" value="ACCDAY" readonly /></td>
+                </tr>
+                <tr>
+                    <th>예금주 성명</th>
+                    <td><input type="text" style="ime-mode:active" id="AccHolderName" placeholder="" value="ACCHOLDERNAME" readonly></td>
+                    <th>학부모님 핸드폰번호</th>
+                    <td><input type="tel" id="ParentPhone" placeholder="-를 뺀 번호를 입력해주세요" required minlength="9" maxlength="11" value="PARENTPHONE" readonly></td>
+                </tr>
+                <tr>
+                    <th>계좌번호(농협)</th>
+                    <td colspan="3"><input type="number" id="AccNo" value="ACCNO" readonly></td>
+                </tr>
+                <tr>
+                    <th>신청인</th>
+                    <td><input type="text" id="WhoAreYou" value="WHOAREYOU" readonly></td>
+                    <th>예금주와 관계</th>
+                    <td>
+                        <select name="depositor" class="Relationship" id="Relation">
+                            <option id="_man">RELATION</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>납부자 번호</th>
+                    <td colspan="3"><input type="text" id="PayerNo" value="PAYERNO" readonly></td>
+                </tr>
+            </table>
+        </div>
+        <br>
+    </div>
+</body>
