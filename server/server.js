@@ -1,5 +1,5 @@
 const config = require("./config.json");
-require('./log').init('server');
+// require('./log').init('server');
 const nodemailer = require("nodemailer");
 const transporter = nodemailer.createTransport({
     // host: "smtp.gmail.com",
@@ -15,12 +15,13 @@ const express = require("express");
 const bodyParser = require('body-parser');
 const app = express();
 const fs = require("fs");
+const crypto = require("crypto");
 
-require('greenlock-express').init({
-    packageRoot: __dirname,
-    configDir: './greenlock.d',
-    maintainerEmail: 'pyo1748@gmail.com',
-  }).serve(app);
+// require('greenlock-express').init({
+//     packageRoot: __dirname,
+//     configDir: './greenlock.d',
+//     maintainerEmail: 'pyo1748@gmail.com',
+//   }).serve(app);
 app.use(cors());
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
@@ -44,6 +45,18 @@ app.get("/", (req, res) => {
             res.end(data);
         }
     })
+});
+
+app.get("/decrypt", (req, res) => {
+    let key = crypto.scrypt(config.crpytoKEY, 'salt', config.crpytoKEY.length);
+    let iv = crypto.randomBytes(16);
+    let cipher = crypto.createCipheriv('aes-256-gcm', config.crpytoKEY, key);
+    let result = cipher.update(req.body.test, 'utf8', 'base64');
+    console.log("Crypted: ", result);
+    
+    let decipher = crypto.createDecipheriv('aes-256-gcm', config.crpytoKEY);
+    console.log("Decrypted: ", decipher.update(result, 'base64', 'utf8'));
+    res.send("OK");
 })
 
 app.post("/upload", (req, res) => {
