@@ -99,12 +99,13 @@ function ajaxSend(data) {
         return false;
     }
     httpRequset.onreadystatechange = () => {
-        isPending = false;
         if (httpRequset.readyState === XMLHttpRequest.DONE) {
             if (httpRequset.status === 200) {
+                isPending = false;
                 alert(httpRequset.response);
                 console.log(httpRequset.response);
             } else {
+                isPending = false;
                 alert("서버에 요청을 보내는데 실패했습니다.");
             }
         }
