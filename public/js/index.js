@@ -1,4 +1,7 @@
+let isPending = false;
+
 function sendData() {
+    if (isPending) return alert("서버 응답 대기중 입니다.");
     const userinput = {
         sub:(document.getElementById("sub").options[document.getElementById("sub").selectedIndex].value),
         testNo:(document.getElementById("testNo").value),
@@ -78,13 +81,14 @@ function sendData() {
     })
     // ===============================
 
-    if (!problem) {
+    if (!problem && !isPending) {
         // console.log("POST DATA", userinput)
         ajaxSend(userinput)
     }
 }
 
 function ajaxSend(data) {
+    isPending = true;
     data.token = "Ie9mkp6Ty3uqHnd9cY6M7c7qwEA91r";
     let httpRequset;
     httpRequset = new XMLHttpRequest();
@@ -95,6 +99,7 @@ function ajaxSend(data) {
         return false;
     }
     httpRequset.onreadystatechange = () => {
+        isPending = false;
         if (httpRequset.readyState === XMLHttpRequest.DONE) {
             if (httpRequset.status === 200) {
                 alert(httpRequset.response);
