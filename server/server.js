@@ -39,6 +39,7 @@ app.get("/test", (req,res) => {
 })
 
 app.get("/", (req, res) => {
+    console.log(currentTime(), "index.html 요청" ,req.headers['x-forwarded-for'] || req.connection.remoteAddress);
     fs.readFile(`../public/index.html`, (err, data) => {
         if (err) {
             console.log(currentTime(), "index.html", err);
