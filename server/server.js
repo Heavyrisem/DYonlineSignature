@@ -64,10 +64,9 @@ app.get("/decrypt", async (req, res) => {
                 let decrypted = await decrypt(req.query.field);
                 if (decrypted == "PARSE_ERR") return res.send("데이터 복호화 중 오류 발생");
                 let keys = Object.keys(decrypted);
-                
 
                 keys.forEach(name => {
-                    html = html.replace(name.toUpperCase(), decrypted[name]);
+                    html = replace(html, name.toUpperCase(), decrypted[name]);
                 });
                 
                 res.writeHead(200, {'Content-Type': 'text/html'});
@@ -120,9 +119,10 @@ app.post("/upload", (req, res) => {
         return res.send("이미 처리된 수험번호 입니다.");
     }
 
+    userinput.time = currentTime();
 
 
-
+    console.log(userinput);
     // const mailText = `합격 과: ${userinput.sub}\n수험번호: ${userinput.testNo}\n이름: ${userinput.name}\n구분: ${userinput.type}\n출금동의일자: ${userinput.AccDay}\n예금주 성명: ${userinput.AccHolderName}\n학부모님 핸드폰번호: ${userinput.ParentPhone}\n계좌번호(농협): ${userinput.AccNo}\n신청인: ${userinput.WhoAreYou}\n예금주와 관계: ${userinput.Relation}\n납부자 번호: ${userinput.PayerNo}`;
     const mailText = JSON.stringify(userinput);
     if (mailText.indexOf("undefined") != -1) return res.send("누락된 정보가 있습니다.");
@@ -132,7 +132,6 @@ app.post("/upload", (req, res) => {
     crypted += cipher.final('hex');
 
     let timer = Date.now();
-    
     console.log(`${currentTime()} 수험번호 ${userinput.testNo} 메일 전송 준비 =====================`)
     const mailoption = {
         from: `${config.mailID}@gmail.com`,
@@ -153,6 +152,10 @@ app.post("/upload", (req, res) => {
 function currentTime() {
     let now = new Date();
     return `${now.getFullYear()}-${now.getMonth()+1}-${now.getDate()} ${now.getHours()}.${now.getMinutes()}.${now.getSeconds()}`;
+}
+
+function replace(origin, find, rep) {
+    return origin.split(find).join(rep);
 }
 
 app.listen(80, () => {
