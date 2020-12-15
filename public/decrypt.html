@@ -16,7 +16,7 @@
             a.document.write(`<div class="main">${divContents}</div>`); 
             a.document.write('</body></html>'); 
             a.document.close(); 
-            a.onload = a.print();
+            a.onload = a.print;
         }
     </script>
 </head>
@@ -92,3 +92,5 @@
     </div>
     <button class="PrintBtn" onclick="printPaper()"><i class="fas fa-print"></i> 프린트</button>
 </body>
+
+</html>
