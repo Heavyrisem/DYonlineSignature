@@ -1,10 +1,24 @@
+<!DOCTYPE html>
 <html lang="ko">
 
 <head>
     <meta charset="UTF-8">
     <title>온라인 전자 서명</title>
     <link rel="stylesheet" href="./css/style.css">
-    <script src="./js/index.js"></script>
+    <script src="https://kit.fontawesome.com/310a290e16.js" crossorigin="anonymous"></script>
+    <script>
+        function printPaper() {
+            var divContents = document.getElementById('main').innerHTML
+            var a = window.open('', '', 'height=800, width=900'); 
+            a.document.write('<html>'); 
+            a.document.write('<head><link rel="stylesheet" href="./css/style.css"></head>');
+            a.document.write('<body>'); 
+            a.document.write(`<div class="main">${divContents}</div>`); 
+            a.document.write('</body></html>'); 
+            a.document.close(); 
+            a.print(); 
+        }
+    </script>
 </head>
 
 
@@ -12,9 +26,10 @@
     <div class="banner">
         <img class="bannerImg" src="image/topLogo.gif">
         <h1 class="bannerText">온라인 전자 서명</h1>
+        <button class="PrintBtn" onclick="printPaper()"><i class="fas fa-print"></i> 프린트</button>
     </div>
 
-    <div class="main">
+    <div class="main" id="main">
         <h2 class="title">스쿨뱅킹 자동납부 신청서</h2>
         <hr class="line">
         <a class="content">본인은(스쿨뱅킹) 서비스의 납부자로서 아래 정보의 계좌에서 동 서비스와 관련한 자동이체 출금을 (신청)합니다.</a>
@@ -49,7 +64,7 @@
                 </tr>
                 <tr>
                     <th>예금주 성명</th>
-                    <td><input type="text" style="ime-mode:active" id="AccHolderName" placeholder="" value="ACCHOLDERNAME" readonly></td>
+                    <td><input type="text" style="ime-mode:active" id="AccHolder" placeholder="" value="ACCHOLDER" readonly></td>
                     <th>학부모님 핸드폰번호</th>
                     <td><input type="tel" id="ParentPhone" placeholder="-를 뺀 번호를 입력해주세요" required minlength="9" maxlength="11" value="PARENTPHONE" readonly></td>
                 </tr>
@@ -74,5 +89,6 @@
             </table>
         </div>
         <br>
+        <span>TYPE 동의 시각: TIME</span>
     </div>
 </body>

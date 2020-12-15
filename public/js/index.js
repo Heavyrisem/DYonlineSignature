@@ -8,7 +8,7 @@ function sendData() {
         name:(document.getElementById("name").value),
         type:("스쿨뱅킹 신청"), // type
         AccDay:(document.getElementById("AccDay").value),
-        AccHolderName:(document.getElementById("AccHolderName").value),
+        AccHolder:(document.getElementById("AccHolder").value),
         ParentPhone:(document.getElementById("ParentPhone").value),
         AccNo:(document.getElementById("AccNo").value),
         WhoAreYou:(document.getElementById("WhoAreYou").value),
@@ -28,7 +28,7 @@ function sendData() {
         "name":'이름',
         "type":'구분',
         "AccDay":'출금동의일자',
-        "AccHolderName": '예금주 성명',
+        "AccHolder": '예금주 성명',
         "ParentPhone": '학부모님 핸드폰 번호',
         "AccNo": '계좌번호(농협)',
         "WhoAreYou": '신청인',
