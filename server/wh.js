@@ -62,7 +62,7 @@ async function stopServer() {
 async function Prepare(req, res) {
     let now = new Date();
     console.log("---------- New Commit has Arrive ----------");
-    console.log(`${now.getFullYear()}/${now.getMonth()}/${now.getDate()} ${now.getHours()}:${now.getDate()}:${now.getSeconds()}`);
+    console.log(`${now.getFullYear()}-${now.getMonth()+1}-${now.getDate()} ${now.getHours()}.${now.getMinutes()}.${now.getSeconds()}`);
     if (req.body.ref != "refs/heads/master") {
         console.log("Branch is Diff", req.body.ref);
         return res.send({status: "Branch is Diff", err: req.body.ref});
