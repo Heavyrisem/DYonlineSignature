@@ -11,12 +11,12 @@
             var divContents = document.getElementById('main').innerHTML
             var a = window.open('', '', 'height=800, width=900'); 
             a.document.write('<html>'); 
-            a.document.write('<head><link rel="stylesheet" href="./css/style.css"></head>');
+            a.document.write(`<head><link rel="stylesheet" href="./css/style.css"></head>`);
             a.document.write('<body>'); 
             a.document.write(`<div class="main">${divContents}</div>`); 
             a.document.write('</body></html>'); 
             a.document.close(); 
-            a.print(); 
+            a.onload = a.print();
         }
     </script>
 </head>
