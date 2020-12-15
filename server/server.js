@@ -122,7 +122,6 @@ app.post("/upload", (req, res) => {
     userinput.time = currentTime();
 
 
-    console.log(userinput);
     // const mailText = `합격 과: ${userinput.sub}\n수험번호: ${userinput.testNo}\n이름: ${userinput.name}\n구분: ${userinput.type}\n출금동의일자: ${userinput.AccDay}\n예금주 성명: ${userinput.AccHolderName}\n학부모님 핸드폰번호: ${userinput.ParentPhone}\n계좌번호(농협): ${userinput.AccNo}\n신청인: ${userinput.WhoAreYou}\n예금주와 관계: ${userinput.Relation}\n납부자 번호: ${userinput.PayerNo}`;
     const mailText = JSON.stringify(userinput);
     if (mailText.indexOf("undefined") != -1) return res.send("누락된 정보가 있습니다.");

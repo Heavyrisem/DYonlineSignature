@@ -108,11 +108,12 @@ select {
 
 
 .PrintBtn {
-    margin: auto;
-    margin-right: .3rem;
+    display: inherit;
+    margin: 1rem auto;
+    /* margin-right: .3rem; */
     padding: .5rem 1.5rem;
     text-decoration: none;
-    background-color: white;
+    background-color: rgb(212, 212, 212);
     color: black;
 
     font-size: 1rem;
